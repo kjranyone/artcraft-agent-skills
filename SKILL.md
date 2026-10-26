@@ -1,6 +1,6 @@
 ---
 name: FilmCraft
-description: Use whenever working with FilmCraft on this machine — the Rust video editor and Premiere Pro alternative — including creating, editing, trimming, colouring or exporting sequences and projects (.fcproj, MP4/MOV/MXF, PNG/TIFF/GIF, WAV/AIFF/AAC, XML/FCPXML/OTIO/EDL/AAF/OMF, SRT/VTT/SCC), driving the running desktop window, or using its MCP server, filmcraft-cli or control channel. Triggers on "FilmCraft", "filmcraft-cli", "filmcraft mcp", "FilmCraft MCP", "edit this video", "build a sequence", "cut this clip", "add a transition/effect/caption", "export to MP4/ProRes/DNxHR", "export XML for Premiere", "take a FilmCraft screenshot", "drive the FilmCraft window", and requests to automate video editing or FilmCraft itself. Invoke with @filmcraft.
+description: Use whenever working with FilmCraft on this machine — the Rust video editor and Premiere Pro alternative — including launching the app with control port ("FilmCraftを起動", "FilmCraftを立ち上げて", "launch FilmCraft"), creating, editing, trimming, colouring or exporting sequences and projects (.fcproj, MP4/MOV/MXF, PNG/TIFF/GIF, WAV/AIFF/AAC, XML/FCPXML/OTIO/EDL/AAF/OMF, SRT/VTT/SCC), driving the running desktop window, or using its MCP server, filmcraft-cli or control channel. Triggers on "FilmCraft", "filmcraft-cli", "filmcraft mcp", "FilmCraft MCP", "FilmCraftを起動", "FilmCraft立ち上げて", "FilmCraft開いて", "edit this video", "build a sequence", "cut this clip", "add a transition/effect/caption", "export to MP4/ProRes/DNxHR", "export XML for Premiere", "take a FilmCraft screenshot", "drive the FilmCraft window", and requests to automate video editing or FilmCraft itself. Invoke with @filmcraft.
 ---
 
 # FilmCraft — agent operation
@@ -51,20 +51,33 @@ drive one engine. Verified against **0.10.0–0.12.0** on Windows and Linux.
 | Mode | Start | Use for |
 |---|---|---|
 | Headless | `filmcraft-cli mcp` (`--demo`, `--project p.fcproj`, `--data-dir d`) | no window, batch builds, exports, scripts |
-| App bridge | `filmcraft --control 7991 --control-input-only` + `filmcraft-cli mcp --bridge 127.0.0.1:7991` | the real window: UI state, screenshots, clicks, keys, drags, GUI-only commands |
+| App bridge | `filmcraft --control 50051` + `filmcraft-cli mcp --bridge 127.0.0.1:50051` | the real window: UI state, screenshots, clicks, keys, drags, GUI-only commands |
 
-Both are registered in `~/.config/opencode/opencode.json` as `filmcraft` and
-`filmcraft-app`; in OpenCode they appear as `tools.filmcraft.*` and
-`tools["filmcraft-app"].*`. `--control-input-only` makes the app accept widget
-input **only** from the control server, so the agent can click safely without
-taking over the user's mouse. Give the app its own port and (ideally)
-`--data-dir` when the user's instance may be running.
+### Launching FilmCraft on user request ("起動して" / "start FilmCraft")
 
-```sh
-filmcraft --control 7991 --control-input-only &
-filmcraft-cli mcp --bridge 127.0.0.1:7991      # MCP to that window
-ss -ltn | grep 7991                            # is it up?
-```
+When the user asks to start or launch FilmCraft (「FilmCraftを起動して」「立ち上げて」「開いて」「start FilmCraft」):
+1. **Check if already running:**
+   - Windows: `Get-Process filmcraft -ErrorAction SilentlyContinue`
+   - Linux / macOS: `pgrep filmcraft`
+   - If running, verify if the control port is responsive (`filmcraft-cli --bridge 127.0.0.1:50051 inspect`).
+   - If running *without* a control port, inform the user: *"FilmCraft is currently running without a control port. Please save your work and restart it, or allow me to close and relaunch it with `--control 50051`."*
+2. **Launch in background with `--control <port>` (default: `50051`):**
+   - Windows (PowerShell):
+     ```powershell
+     Start-Process "C:\Program Files\FilmCraft\filmcraft.exe" -ArgumentList "--control 50051"
+     ```
+   - Linux:
+     ```sh
+     filmcraft --control 50051 &
+     ```
+   - macOS:
+     ```sh
+     /Applications/FilmCraft.app/Contents/MacOS/filmcraft --control 50051 &
+     ```
+   - Alternatively run `scripts/launch.ps1 -Port 50051` (Windows) or `scripts/launch.sh 50051` (Unix).
+3. **Verify the connection:**
+   - Wait 1–3 seconds, then run `filmcraft-cli --bridge 127.0.0.1:50051 inspect`.
+   - Once responding, report that FilmCraft is active, listening on port 50051, and ready for live timeline edits and collaborative commands.
 
 ## The 17 MCP tools
 
