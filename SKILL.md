@@ -61,20 +61,20 @@ When the user asks to start or launch FilmCraft (「FilmCraftを起動して」�
    - Linux / macOS: `pgrep filmcraft`
    - If running, verify if the control port is responsive (`filmcraft-cli --bridge 127.0.0.1:50051 inspect`).
    - If running *without* a control port, inform the user: *"FilmCraft is currently running without a control port. Please save your work and restart it, or allow me to close and relaunch it with `--control 50051`."*
-2. **Launch in background with `--control <port>` (default: `50051`):**
-   - Windows (PowerShell):
+2. **Launch with `--control <port>` (default: `50051`) and 64-char `FILMCRAFT_CONTROL_TOKEN`:**
+   - Windows (PowerShell) — **use `scripts/launch.ps1` to ensure visible desktop window on `WinSta0\Default`**:
      ```powershell
-     Start-Process "C:\Program Files\FilmCraft\filmcraft.exe" -ArgumentList "--control 50051"
+     powershell -File scripts/launch.ps1 -Port 50051
      ```
+     *(This automatically sets/persists `FILMCRAFT_CONTROL_TOKEN`, configures the port, and launches an interactive task so the GUI is visible to the logged-in user rather than hidden in background session).*
    - Linux:
      ```sh
-     filmcraft --control 50051 &
+     ./scripts/launch.sh 50051
      ```
    - macOS:
      ```sh
-     /Applications/FilmCraft.app/Contents/MacOS/filmcraft --control 50051 &
+     ./scripts/launch.sh 50051
      ```
-   - Alternatively run `scripts/launch.ps1 -Port 50051` (Windows) or `scripts/launch.sh 50051` (Unix).
 3. **Verify the connection:**
    - Wait 1–3 seconds, then run `filmcraft-cli --bridge 127.0.0.1:50051 inspect`.
    - Once responding, report that FilmCraft is active, listening on port 50051, and ready for live timeline edits and collaborative commands.
