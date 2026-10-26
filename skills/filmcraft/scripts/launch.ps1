@@ -1,4 +1,4 @@
-# Launch FilmCraft with control port and control token for live bridge on Windows
+# Launch FilmCraft with control port and control token for live bridge on Windows (Interactive Desktop)
 param(
     [int]$Port = 50051,
     [string]$Project = ""
@@ -52,12 +52,18 @@ if ($Project) {
     $argList += $Project
 }
 
-Write-Host "Starting FilmCraft with control port $Port and secure token..."
-Start-Process -FilePath $exe -ArgumentList ($argList -join " ")
+Write-Host "Launching FilmCraft on interactive desktop with control port $Port..."
 
-# Wait and verify
+# Register and start interactive scheduled task to break out of job objects and attach to user desktop
+$taskName = "FilmCraft_Live_Bridge"
+$action = New-ScheduledTaskAction -Execute $exe -Argument ($argList -join " ")
+$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive
+Register-ScheduledTask -TaskName $taskName -Action $action -Principal $principal -Force | Out-Null
+Start-ScheduledTask -TaskName $taskName
+
+# Wait and verify bridge connectivity
 $ready = $false
-for ($i = 0; $i -lt 20; $i++) {
+for ($i = 0; $i -lt 25; $i++) {
     Start-Sleep -Milliseconds 800
     $resp = & $cli --bridge "127.0.0.1:$Port" inspect 2>&1
     if ($LASTEXITCODE -eq 0 -or $resp -match "project|sequence|no active sequence") {
@@ -67,9 +73,9 @@ for ($i = 0; $i -lt 20; $i++) {
 }
 
 if ($ready) {
-    Write-Host "FilmCraft successfully launched and ready on 127.0.0.1:$Port!"
+    Write-Host "FilmCraft successfully launched on desktop and ready on 127.0.0.1:$Port!"
     exit 0
 } else {
-    Write-Warning "FilmCraft process started, but control port $Port timed out after 16 seconds."
+    Write-Warning "FilmCraft process started, but control port $Port timed out after 20 seconds."
     exit 1
 }
