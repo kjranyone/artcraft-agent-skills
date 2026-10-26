@@ -1,7 +1,7 @@
 # FilmCraft Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![FilmCraft](https://img.shields.io/badge/FilmCraft-0.10--0.12-purple)](https://github.com/storytold/filmcraft)
+[![FilmCraft](https://img.shields.io/badge/FilmCraft-0.10--0.13-purple)](https://github.com/storytold/filmcraft)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-OpenCode%20%7C%20Claude%20%7C%20Antigravity-blue)](SKILL.md)
 
 Agent Skills for **[FilmCraft](https://github.com/storytold/filmcraft)** — the open-source, non-linear video editor written in pure Rust (Premiere Pro alternative).

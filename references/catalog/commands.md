@@ -1,9 +1,9 @@
-﻿# FilmCraft Command Catalog (701 commands)
+﻿# FilmCraft Command Catalog (710 commands)
 
 | Namespace | Count |
 |---|---|
 | `audio` | 5 |
-| `captions` | 22 |
+| `captions` | 23 |
 | `clip` | 57 |
 | `clipMixer` | 4 |
 | `color` | 1 |
@@ -17,7 +17,7 @@
 | `fonts` | 1 |
 | `graphics` | 82 |
 | `help` | 1 |
-| `history` | 1 |
+| `history` | 3 |
 | `jobs` | 2 |
 | `labels` | 4 |
 | `lumetri` | 7 |
@@ -36,7 +36,7 @@
 | `presets` | 7 |
 | `project` | 40 |
 | `scopes` | 1 |
-| `sequence` | 45 |
+| `sequence` | 51 |
 | `shortcuts` | 16 |
 | `source` | 7 |
 | `state` | 1 |
@@ -60,6 +60,7 @@
 - `captions.add` {"track":id|"C1"?,"text":str?,"time":ticks?,"seconds":f64?,"durationSeconds":f64=3}  (Cmd+Alt+C)
 - `captions.delete` {"captions":[id]?,"ripple":bool=false}
 - `captions.deleteTrack` {"track":id|"C1"}
+- `captions.duplicate` {"captions":[id]?,"delta":ticks|"deltaFrames":i64}
 - `captions.export` {"path":str,"format":"srt|vtt|scc|mcc|stl|ttml|dfxp"? (default: from the extension),"track":id|"C1"?,"dropFrame":bool=true}
 - `captions.goTo` {"caption":id}
 - `captions.hideAll` {}
@@ -73,7 +74,7 @@
 - `captions.select` {"captions":[id],"add":bool?}
 - `captions.setStyle` {"track":id|"C1","font":str?,"size":f32?,"color":"#rrggbb[aa]"?,"background":bool?,"backgroundColor":"#rrggbbaa"?,"align":"left|center|right"?,"anchor":"top|middle|bottom"?,"margin":0..0.45 (fraction of frame height)?,"lineSpacing":f32?,"outline":f32?,"outlineColor":str?,"reset":bool?}
 - `captions.setText` {"caption":id?,"text":str?,"speaker":str|null?}
-- `captions.setTimes` {"caption":id?,"startTime|startFrame|startSeconds|startTimecode":窶ｦ,"endTime|endFrame|endSeconds|endTimecode":窶ｦ}
+- `captions.setTimes` {"caption":id?,"startTime|startFrame|startSeconds|startTimecode":…,"endTime|endFrame|endSeconds|endTimecode":…}
 - `captions.setTrack` {"track":id|"C1","name":str?,"format":str?,"language":str?,"enabled":bool?,"locked":bool?,"syncLock":bool?}
 - `captions.showActiveOnly` {"track":id|"C1"?}
 - `captions.showAll` {}
@@ -166,7 +167,7 @@
 - `edit.editOriginal` {"items":[id]?}  (Cmd+E)
 - `edit.find` {"scope":"project|timeline"?,"column":str?,"operator":"contains|matches|beginsWith|endsWith|doesNotContain"?,"text":str?,"rows":[{"column":str,"operator":str,"text":str}]?,"matchAll":bool=true,"caseSensitive":bool=false,"in":"all|clips|markers"?}  (Cmd+F)
 - `edit.findNext` {}
-- `edit.label` {"label":"Violet|Iris|窶ｦ"}
+- `edit.label` {"label":"Violet|Iris|…"}
 - `edit.label.blue` {"items":[id]?,"clips":[id]?}
 - `edit.label.brown` {"items":[id]?,"clips":[id]?}
 - `edit.label.caribbean` {"items":[id]?,"clips":[id]?}
@@ -200,7 +201,7 @@
 ### effects
 
 - `effects.addKeyframe` {"clip":id,"effect":str|index,"param":str,"mask":n?,"time":ticks?}
-- `effects.apply` {"clips":[id]?,"effect":"gaussian_blur|Gaussian Blur|窶ｦ"}
+- `effects.apply` {"clips":[id]?,"effect":"gaussian_blur|Gaussian Blur|…"}
 - `effects.deleteKeyframe` {"clip":id,"effect":str|index,"param":str,"mediaTime":ticks}
 - `effects.list` {"kind":"Video"|"Audio"|"VideoTransition"|"AudioTransition"?,"folder":"Video Transitions/Wipe"?,"detail":bool?}
 - `effects.moveKeyframe` {"clip":id,"effect":str|index,"param":str,"mediaTime":ticks,"to":ticks,"value":any?,"merge":bool?,"begin":bool?}
@@ -225,7 +226,7 @@
 - `essentialSound.generateDucking` {"clips":[id]?}
 - `essentialSound.inspect` {"clips":[id]?}
 - `essentialSound.savePreset` {"clips":[id]?,"name":str}
-- `essentialSound.set` {"clips":[id]?,"key":"repair.noise.on|repair.noise.amount|repair.humHz|clarity.eqPreset|creative.reverbPreset|ducking.reduceDb|volume.levelDb|mute|窶ｦ","value":any,"values":{key:value}?,"begin":bool?}
+- `essentialSound.set` {"clips":[id]?,"key":"repair.noise.on|repair.noise.amount|repair.humHz|clarity.eqPreset|creative.reverbPreset|ducking.reduceDb|volume.levelDb|mute|…","value":any,"values":{key:value}?,"begin":bool?}
 - `essentialSound.setType` {"clips":[id]?,"type":"dialogue|music|sfx|ambience"}
 
 ### events
@@ -242,8 +243,8 @@
 - `export.presets.get` {"name":str}
 - `export.presets.import` {"path":str}
 - `export.presets.list` {"query":str?,"category":str?,"format":str?,"favorites":bool?}
-- `export.presets.save` {"name":str,"from":str?,"settings":ExportSettings?,"category":str?,"description":str?,"overwrite":bool=true, 窶ｦflat overrides}
-- `export.queue.add` {窶ｦsettings params,"path":str|dir?,"sequences":[id]?,"ranges":[range]?,"start":bool?,"wait":bool?}  (Alt+Shift+M)
+- `export.presets.save` {"name":str,"from":str?,"settings":ExportSettings?,"category":str?,"description":str?,"overwrite":bool=true, …flat overrides}
+- `export.queue.add` {…settings params,"path":str|dir?,"sequences":[id]?,"ranges":[range]?,"start":bool?,"wait":bool?}  (Alt+Shift+M)
 - `export.queue.cancel` {"id":id?,"wait":bool?}
 - `export.queue.clear` {"all":bool=false}
 - `export.queue.list` {}
@@ -252,8 +253,8 @@
 - `export.queue.retry` {"id":id,"start":bool?,"wait":bool?}
 - `export.queue.start` {"wait":bool=false}
 - `export.queue.stop` {}
-- `export.quick` {"preset":str?,"path":str?,"wait":bool?, 窶ｦsettings params}
-- `export.resolve` {窶ｦsettings params, "path":str?}
+- `export.quick` {"preset":str?,"path":str?,"wait":bool?, …settings params}
+- `export.resolve` {…settings params, "path":str?}
 
 ### file
 
@@ -300,7 +301,7 @@
 - `file.newTransparentVideo` {}
 - `file.open` {"path":str}  (Cmd+O)
 - `file.openDemoProject` {}
-- `file.projectManager` {"destination":str,"mode":"collect|consolidate","sequences":[id]?,"excludeUnused":bool=true,"handles":frames=30,"preset":"prores_lt|prores_hq|h264|窶ｦ","includeProxies":bool,"includePreviews":bool=false,"projectName":str?,"dryRun":bool=false,"overwrite":bool=false,"wait":bool=false}
+- `file.projectManager` {"destination":str,"mode":"collect|consolidate","sequences":[id]?,"excludeUnused":bool=true,"handles":frames=30,"preset":"prores_lt|prores_hq|h264|…","includeProxies":bool,"includePreviews":bool=false,"projectName":str?,"dryRun":bool=false,"overwrite":bool=false,"wait":bool=false}
 - `file.projectSettings.general` {"renderer":"gpu|software"?,"videoDisplay":"timecode|feet35|feet16|frames"?,"audioDisplay":"samples|milliseconds"?,"captureFormat":"DV|HDV"?,"titleSafe":[h,v]?,"actionSafe":[h,v]?}
 - `file.projectSettings.scratchDisks` {"captured":path|null?,"videoPreviews":path|null?,"audioPreviews":path|null?,"autoSave":path|null?}
 - `file.recover` {"id":str?}
@@ -366,7 +367,7 @@
 - `graphics.newFromFile` {"path":str,"time":ticks?,"track":index?} (imports the image or video and places it above the clips at the playhead)
 - `graphics.newPolygon` {"position":[x,y]?,"size":[w,h]=[300,300],"sides":n=6,"clip":id?,"seconds":f64=5,"track":index?,"time":ticks?}
 - `graphics.newRectangle` {"position":[x,y]?,"size":[w,h]=[400,200],"clip":id?,"seconds":f64=5,"track":index?,"time":ticks?}  (Cmd+Alt+R)
-- `graphics.newShape` {"shape":"rectangle|ellipse|polygon|path","position":[x,y]? (the shape's centre),"size":[w,h]=[400,200],"points":[[x,y],窶ｦ]?,"clip":id? (add the shape to this graphic),"seconds":f64=5,"track":index?,"time":ticks?}
+- `graphics.newShape` {"shape":"rectangle|ellipse|polygon|path","position":[x,y]? (the shape's centre),"size":[w,h]=[400,200],"points":[[x,y],…]?,"clip":id? (add the shape to this graphic),"seconds":f64=5,"track":index?,"time":ticks?}
 - `graphics.newText` {"text":str="New Text","position":[x,y]? (point text: its alignment point on the first baseline; with `box`: the box's top-left corner),"box":[w,h]? (paragraph text wrapped in a box this size),"clip":id?,"newClip":bool?,"vertical":bool=false,"size":px=100,"font":str?,"fontStyle":str?,"seconds":f64=5,"track":index?,"time":ticks?}  (Cmd+T)
 - `graphics.newVerticalText` {"text":str="New Text","position":[x,y]?,"clip":id?,"size":px=100,"seconds":f64=5,"time":ticks?}
 - `graphics.nudgeDown` {}
@@ -387,15 +388,15 @@
 - `graphics.selectPreviousLayer` {}  (Cmd+Alt+[)
 - `graphics.sendBackward` {"clip":id?,"layer":n?}  (Cmd+[)
 - `graphics.sendToBack` {"clip":id?,"layer":n?}  (Cmd+Shift+[)
-- `graphics.set` {"clip":id?,"layer":n|name?,"props":{"font":"Inter","font_style":"Bold","size":120,"align":"center","tracking":50,"leading":0,"fill_color":"#ffcc00","stroke":true,"stroke_width":6,"background":true,"shadow":true,"position":[x,y],"scale":100,"rotation":0,"opacity":100,窶ｦ},"time":ticks?,"merge":bool?,"begin":bool?}
+- `graphics.set` {"clip":id?,"layer":n|name?,"props":{"font":"Inter","font_style":"Bold","size":120,"align":"center","tracking":50,"leading":0,"fill_color":"#ffcc00","stroke":true,"stroke_width":6,"background":true,"shadow":true,"position":[x,y],"scale":100,"rotation":0,"opacity":100,…},"time":ticks?,"merge":bool?,"begin":bool?}
 - `graphics.setCharStyle` {"clip":id?,"layer":n|name?,"start":char=0,"end":char=len,"style":{"font":str,"fontStyle":str,"size":px,"color":"#rrggbb","bold":bool,"italic":bool,"underline":bool,"tracking":n,"baselineShift":px,"caps":"normal|all caps|small caps"},"clear":bool? (remove styles from the range),"merge":bool?,"begin":bool? (start a new undo gesture)}
 - `graphics.setResponsiveTime` {"clip":id?,"introFrames":n?,"outroFrames":n? (or introSeconds / outroSeconds, or ticks as intro / outro)}
-- `graphics.setRoll` {"clip":id?,"mode":"off|roll|crawlLeft|crawlRight"?,"startOffScreen":bool?,"endOffScreen":bool?,"prerollFrames":n?,"easeInFrames":n?,"easeOutFrames":n?,"postrollFrames":n? (or 窶ｦSeconds, or ticks as preroll/easeIn/easeOut/postroll)}
+- `graphics.setRoll` {"clip":id?,"mode":"off|roll|crawlLeft|crawlRight"?,"startOffScreen":bool?,"endOffScreen":bool?,"prerollFrames":n?,"easeInFrames":n?,"easeOutFrames":n?,"postrollFrames":n? (or …Seconds, or ticks as preroll/easeIn/easeOut/postroll)}
 - `graphics.setText` {"clip":id?,"layer":n|name?,"text":str,"merge":bool? (coalesce with the previous Edit Text undo step)}
 - `graphics.setTextType` {"clip":id?,"layer":n|name?,"type":"point|paragraph" (point: no box, handles scale the text; paragraph: the text wraps in a box that handles resize)}
 - `graphics.template.apply` {"template":id|name|path,"values":{control id or name: value}?,"time":ticks?,"track":index?}
 - `graphics.template.controls` {"clip":id?}
-- `graphics.template.export` {"clip":id?,"name":str,"category":str="My Templates","description":str?,"controls":[{"layer":n|name,"param":"text|fill_color|size|font|position|enabled|窶ｦ","name":str?,"kind":"text|color|slider|checkbox|font|position"?,"min":f64?,"max":f64?,"id":str?}]? (default: each text layer's text),"path":str? (default: the user templates folder),"embedFonts":bool=false,"fontLicense":str?}
+- `graphics.template.export` {"clip":id?,"name":str,"category":str="My Templates","description":str?,"controls":[{"layer":n|name,"param":"text|fill_color|size|font|position|enabled|…","name":str?,"kind":"text|color|slider|checkbox|font|position"?,"min":f64?,"max":f64?,"id":str?}]? (default: each text layer's text),"path":str? (default: the user templates folder),"embedFonts":bool=false,"fontLicense":str?}
 - `graphics.template.install` {"path":str (a .fcgt file; Adobe .mogrt files are refused)}
 - `graphics.template.list` {"query":str? (search names, categories, descriptions, tags),"category":str?,"source":"builtin|user"?}
 - `graphics.template.remove` {"template":id|name (a user template)}
@@ -410,6 +411,8 @@
 
 ### history
 
+- `history.clear` {}
+- `history.deleteRedoable` {}
 - `history.list` {}
 
 ### jobs
@@ -478,7 +481,7 @@
 
 ### masks
 
-- `masks.add` {"clip":id?,"effect":index|id?="opacity","shape":"ellipse"|"polygon"|"rectangle"|"bezier","path":[[x,y]窶ｦ]|{vertices}?,"center":[x,y]?,"size":[w,h]?,"cornerRadius":px?}
+- `masks.add` {"clip":id?,"effect":index|id?="opacity","shape":"ellipse"|"polygon"|"rectangle"|"bezier","path":[[x,y]…]|{vertices}?,"center":[x,y]?,"size":[w,h]?,"cornerRadius":px?}
 - `masks.addVertex` {"clip":id?,"effect":index|id?,"mask":n?,"after":n,"at":[x,y]}
 - `masks.list` {"clip":id?,"time":ticks?}
 - `masks.moveVertex` {"clip":id?,"effect":index|id?,"mask":n?,"vertex":n,"handle":"point"|"in"|"out"?,"to":[x,y]?|"delta":[dx,dy]?,"breakHandles":bool?,"merge":key?}
@@ -532,7 +535,7 @@
 ### metadata
 
 - `metadata.get` {"item":id?,"clip":id?}
-- `metadata.set` {"item":id?,"clip":id?,"field":"Name|Label|Description|Scene|Shot|Log Note|Comment|Tape Name|Client|Camera Angle|窶ｦ","value":str} | {"item":id?,"fields":{name:str}}
+- `metadata.set` {"item":id?,"clip":id?,"field":"Name|Label|Description|Scene|Shot|Log Note|Comment|Tape Name|Client|Camera Angle|…","value":str} | {"item":id?,"fields":{name:str}}
 
 ### mixer
 
@@ -685,8 +688,8 @@
 - `sequence.addEdit` {"time":ticks?}  (Cmd+K)
 - `sequence.addEditAllTracks` {"time":ticks?}  (Cmd+Shift+K)
 - `sequence.addTracks` {"video":n=1,"audio":n=0,"submix":n=0,"videoAfter":"first"|"V2"|n?,"audioAfter":"first"|"A2"|n?,"submixAfter":"first"|"S1"|n?,"audioType":"standard|5.1|adaptive|mono"?,"submixType":"stereo|5.1|adaptive|mono"?}
-- `sequence.applyAudioTransition` {"clip":id?,"effect":"constant_power|Constant Power|窶ｦ"?,"frames":i64?,"edge":"in"|"out"?,"params":{param:value}?,"reverse":bool?}  (Cmd+Shift+D)
-- `sequence.applyVideoTransition` {"clip":id?,"effect":"cross_dissolve|Cross Dissolve|窶ｦ"?,"frames":i64?,"edge":"in"|"out"?,"params":{param:value}?,"reverse":bool?}  (Cmd+D)
+- `sequence.applyAudioTransition` {"clip":id?,"effect":"constant_power|Constant Power|…"?,"frames":i64?,"edge":"in"|"out"?,"params":{param:value}?,"reverse":bool?}  (Cmd+Shift+D)
+- `sequence.applyVideoTransition` {"clip":id?,"effect":"cross_dissolve|Cross Dissolve|…"?,"frames":i64?,"edge":"in"|"out"?,"params":{param:value}?,"reverse":bool?}  (Cmd+D)
 - `sequence.close` {"item":id?}  (Cmd+W)
 - `sequence.closeGap` {"track":"V1"|id?,"time":ticks?}
 - `sequence.closeOthers` {"item":id?}
@@ -695,6 +698,7 @@
 - `sequence.deleteRenderFilesInToOut` {}
 - `sequence.deleteTrack` {"track":"V3"|id}
 - `sequence.deleteTracks` {"video":"empty"|"V2"|id?,"audio":"empty"|"A2"|id?,"captions":"empty"|"C2"|id?}
+- `sequence.duplicateFrames` {}
 - `sequence.extract` {}  (')
 - `sequence.goToNextGap` {}  (Shift+;)
 - `sequence.goToNextGapInTrack` {"track":"V1"|id?}
@@ -722,11 +726,16 @@
 - `sequence.selectionFollowsPlayhead` {"on":bool?}
 - `sequence.settings` {"width":u32?,"height":u32?,"fps":f64?,"name":str?,"sampleRate":u32?,"mix":"Stereo|Mono|5.1|Adaptive"?,"dropFrame":bool?,"maxRenderQuality":bool?,"workingSpace":"rec709"|"rec2100-pq"|"rec2100-hlg"?,"wideGamut":bool?,"autoToneMap":bool?,"scaleMotion":bool=false}
 - `sequence.setTransition` {"transition":id,"params":{param:value}?,"reverse":bool?,"reset":bool?,"duration":ticks?|"frames":n?,"align":"center"|"start"|"end"?|"start":ticks?,"merge":bool?,"begin":bool?}
+- `sequence.setWorkArea` {"start":ticks,"end":ticks}
+- `sequence.setWorkAreaIn` {"time":ticks?,"frame":i64?,"seconds":f64?,"timecode":str?}
+- `sequence.setWorkAreaOut` {"time":ticks?,"frame":i64?,"seconds":f64?,"timecode":str?}
+- `sequence.showDuplicateFrameMarkers` {"on":bool?}
 - `sequence.showThroughEdits` {"on":bool?}
 - `sequence.simplify` {"name":str?,"removeDisabled":bool=true,"removeEmptyTracks":bool=true,"closeGaps":bool=false,"moveClipsDown":bool=false,"removeVideoEffects":bool=false,"removeAudioEffects":bool=false,"removeText":bool=false,"keep":"both|video|audio"}
 - `sequence.snap` {"on":bool?}  (S)
 - `sequence.throughEdits` {}
 - `sequence.transcribe` {"track":"mix"|"A1"|id?,"language":"en|auto"?,"diarize":bool?,"maxSpeakers":n?,"model":str?}
+- `sequence.workAreaBar` {"show":bool?}
 
 ### shortcuts
 
@@ -784,7 +793,7 @@
 - `timeline.selectNextClip` {}  (Cmd+Down)
 - `timeline.selectPrevClip` {}  (Cmd+Up)
 - `timeline.setTargeting` {"track":"V1"|id,"targeted":bool?,"sourcePatch":bool?}
-- `timeline.setTrack` {"track":"V1"|id,"locked":bool?,"syncLock":bool?,"enabled":bool?,"muted":bool?,"solo":bool?,"name":str?,"volumeDb":f64?,"pan":f64?,"label":"Violet|Iris|窶ｦ"|""|null?}
+- `timeline.setTrack` {"track":"V1"|id,"locked":bool?,"syncLock":bool?,"enabled":bool?,"muted":bool?,"solo":bool?,"name":str?,"volumeDb":f64?,"pan":f64?,"label":"Violet|Iris|…"|""|null?}
 - `timeline.slide` {"clip":id,"delta":ticks|"deltaFrames":i64}
 - `timeline.slideLeft` {}
 - `timeline.slideLeft5` {}

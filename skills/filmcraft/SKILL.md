@@ -8,7 +8,7 @@ description: Use whenever working with FilmCraft on this machine — the Rust vi
 FilmCraft is a native Rust video editor (Premiere Pro-class) whose agent interface
 is built in: **every action is a command with an id**. Menus, shortcuts, panels,
 timeline gestures, the CLI, the control channel, the MCP server and the GUI all
-drive one engine. Verified against **0.10.0–0.12.0** on Windows and Linux.
+drive one engine. Verified against **0.10.0–0.13.0** on Windows and Linux.
 
 ## Machine & environment paths
 
@@ -20,7 +20,7 @@ drive one engine. Verified against **0.10.0–0.12.0** on Windows and Linux.
 
 - **Log location:** `<data-dir>/Logs/filmcraft.log`
 - **Control port:** loopback only (`--control <port>` or `FILMCRAFT_CONTROL_PORT`, e.g. `9876` or `7991` or `50051`)
-- **Commands:** **701 in 42 namespaces**
+- **Commands:** **710 in 42 namespaces**
 - **Effects:** **130 video effects**, **112 video transitions**, 3 audio transitions
 
 ## Mental model

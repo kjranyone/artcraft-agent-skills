@@ -7,7 +7,6 @@ Thumbs.db
 
 # Test & probe outputs
 filmcraft-commands/
-references/catalog/version.txt
 *.fcproj
 *.mp4
 *.mov
