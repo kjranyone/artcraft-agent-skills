@@ -1,0 +1,20 @@
+# OS & Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*~
+
+# Test & probe outputs
+filmcraft-commands/
+references/catalog/version.txt
+*.fcproj
+*.mp4
+*.mov
+*.wav
+*.png
+*.log
+
+# Temp
+tmp/
+temp/
