@@ -1,68 +1,81 @@
-# Aesthetic canon — sourced rules for video/motion craft
+# Aesthetic canon — After Effects / Premiere production craft
 
-Every rule below is distilled from a named, publicly available text. When a
-frame fails review, name the violated source rule. Do not invent rules.
+Rules sourced from the After Effects / Premiere Pro / motion-design canon.
+When a rendered frame fails review, name the violated source. UI design
+systems (Material, design tokens) are **not** authoritative for film.
 
 ## Sources
 
-1. **デジタル庁デザインシステム β版 — タイポグラフィ** (Digital Agency of Japan,
-   DADS) — <https://design.digital.go.jp/dads/foundations/typography/>
-2. **Material Design 3 — Motion: easing & duration** (Google) —
-   <https://m3.material.io/styles/motion/easing-and-duration>
-3. **The Illusion of Life — the Twelve Basic Principles of Animation**
-   (Frank Thomas & Ollie Johnston, Disney; summarized at
-   <https://en.wikipedia.org/wiki/Twelve_basic_principles_of_animation>)
-4. **Dieter Rams — Ten principles for good design** (Vitsœ) —
-   <https://www.vitsoe.com/us/about/good-design> (CC-BY-NC-ND; quote briefly)
+1. **Adobe After Effects documentation — Graph Editor, keyframe velocity**
+   <https://helpx.adobe.com/after-effects/using/animation-keyframes-graph-editor.html>
+2. **Adobe After Effects documentation — Motion blur, shutter angle**
+   <https://helpx.adobe.com/after-effects/using/rendering-order.html> and
+   comp settings (shutter angle in degrees of a 360° rotation)
+3. **The Animator's Survival Kit** — Richard Williams (moving holds, ease
+   in/out, timing scales)
+4. **The Illusion of Life** — Thomas & Johnston, the twelve principles
+   <https://en.wikipedia.org/wiki/Twelve_basic_principles_of_animation>
+5. **Adobe Premiere Pro documentation — Lumetri Color** (grading panel
+   order) and editing grammar (J-cuts / L-cuts, cut on action)
+6. **SMPTE/EBU title-safe & broadcast-safe conventions** (90%/80% action
+   safe, legal luma/chroma ranges)
+7. **School of Motion** (Joey Korenman) — graph-editor essays, "ease" as a
+   design decision, value-vs-speed curves
 
-## Motion (from M3 + Principles 9/6/2)
+## Graph editor (the AE "eye")
 
-- **Duration tiers**: micro 100–150 ms / small 200–250 ms / medium 300–350 ms
-  / large 400–500 ms. Nothing on screen should take longer than 500 ms to
-  arrive unless it is a deliberate hero move.
-- **Easing families** (M3 tokens, cubic-bezier):
-  - entering → **emphasized decelerate** `cubic-bezier(0.05, 0.7, 0.1, 1)`
-    (fast start, long settle)
-  - exiting → **emphasized accelerate** `cubic-bezier(0.3, 0, 0.8, 0.15)`
-    (slow leave, fast vanish)
-  - moving between two on-screen positions → **standard**
-    `cubic-bezier(0.2, 0, 0, 1)`
-- **Anticipation** (P2): a slam needs a wind-up — 1–2 frames of the element
-  slightly *before* its direction, or the previous element twitching first.
-- **Follow-through** (P5): overshoot must *settle*, not stop dead: scale
-  108 → 98.5 → 100 lands softer than 108 → 92 → 100.
-- **Timing** (P9): sync primary changes to a rhythmic grid (e.g. 0.5 s at
-  120 bpm 8th notes). Two changes at once need a reason.
+- AE's default Easy Ease is **33% influence** — floaty, amateur unless
+  intended. Corporate/teaser entrances read professional at **75–90%
+  influence on the arriving side** (decelerate: fast arrival, long settle).
+- Entrances = **ease-out** (out-influence high); exits = **ease-in**
+  (in-influence high); nothing moves at constant velocity.
+- **Moving holds**: a held element still drifts (position/scale ±1–2% over
+  seconds) — dead-still frames read as slideshow. (Williams: "moving holds".)
+- Overshoot lands in three keys: arrive big → undershoot → settle.
 
-## Japanese typography (from DADS)
+## Camera and comp settings
 
-- **Letter-spacing: JP display = 0.** Negative tracking on Japanese type
-  collides glyphs (、and 。included). Latin caps may take +2% or more; JP
-  headlines stay at 0.
-- **Weights: exactly two** (Regular 400 and Bold 700). No demi/light tiers.
-- **Scale ladder** (video = scale the system up): display 48–64 px on web →
-  96–230 px at 1080 p for headlines; micro-labels never below 22 px.
-- **No italics for Japanese** (synthetic oblique degrades legibility).
-- Multi-line body leading: 150% minimum; display lines may sit at 120–140%.
+- **180° shutter rule**: motion blur of ~half a frame reads filmic —
+  shutterAngle 180, blur samples 8–16. 360° smears; 0° stutters.
+- **Title/action safe**: keep text inside 90% width (x 96–1824 @1920) and
+  80% height band; micro-labels may sit inside the margin but never outside.
+- 23.976/24 fps reads filmic; 30 fps reads video. Hybrid ok if motion blur
+  carries it.
 
-## Staging and restraint (from Rams + Principles 3/10)
+## Layers and compositing grammar (AE techniques → EffectCraft API)
 
-- **Staging** (P3): each frame has exactly ONE focal element. If two things
-  compete, one is decoration — remove it.
-- **Exaggeration with restraint** (P10): exaggerate the ONE hero move; keep
-  everything else calm.
-- Rams 5: **unobtrusive** — the design serves the message, never performs.
-- Rams 8: **thorough down to the last detail** — a cropped-by-accident logo,
-  a half-visible glyph bleeding off frame without intent, is a defect, not a
-  style. Intentional bleeds crop ≥ 40% of the element so the crop reads.
-- Rams 10: **"Less, but better"** — when unsure, remove.
+| Technique | AE concept | EffectCraft |
+|---|---|---|
+| Glow bloom | layer glow + Screen/Add | `Glow` effect; duplicates use blend `Screen` |
+| Text reveal | linear wipe / track matte per line | `Linear Wipe` on the text layer, hold-keyed slices |
+| Global grade | adjustment layer | full-frame scrim solid + `Tritone`/grade on photos |
+| Strobe/glitch accents | hold keyframes, 2–3 frames | `keys.interpolation hold` + amplitude spikes |
+| Moving holds | drift on held layers | slow position/scale keys during holds |
+| Smear frames | echo / directional blur on fast moves | `Directional Blur` length spike during travel |
 
-## Frame-review rubric (run on every rendered frame)
+## Editing grammar (Premiere side)
 
-1. ONE focal element? (Staging)
-2. Any JP tracking below 0? (DADS)
-3. Any element cropped unintentionally? (Rams 8)
-4. Any motion still moving at hold? Should be drifting, not dead. (P9)
-5. Any second effect competing with the hero device? (Rams 10)
-6. Colors outside the declared palette? (P0)
-7. Would the client sign this frame? (acceptance)
+- **Cut on action**, not on rest. Scene changes mid-drift, not mid-pause.
+- **J/L cuts** for narration: audio leads or lags picture by 6–12 frames.
+- Grade order in Lumetri: Basic → Creative → Curves → Color Wheels → Vignette.
+  One grade pass on the picture, never per-cut random looks — keep ONE grade
+  system across the video (e.g. a single tritone family).
+- 6-frame minimum for any readable card; flashes ≤ 3 frames.
+
+## Japanese type (from JLREQ / 日本語組版処理の要件, W3C)
+
+- JP display tracking = 0; negative tracking collides 、。and kanji. Latin
+  caps may track wide (+15–30%).
+- Two weights only (Regular/Bold). No synthetic italics for JP.
+- Punctuation spacing is part of the glyph — never squeeze it into neighbors.
+
+## Frame-review rubric (every rendered frame)
+
+1. ONE focal element? (Staging, P3)
+2. Arrivals decelerating, exits accelerating? (Graph editor canon)
+3. Held layers drifting? Dead-still = slideshow.
+4. Motion blur present on fast layers? (180° rule)
+5. JP tracking ≥ 0, no glyph collisions? (JLREQ)
+6. Any unintentional crop/bleed? (Rams 8: thorough to the last detail)
+7. Colors/grade within the single declared system? (Lumetri discipline)
+8. Would the client sign this frame? (acceptance)
