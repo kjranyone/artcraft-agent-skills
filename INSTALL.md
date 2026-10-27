@@ -1,60 +1,96 @@
-# Installing filmcraft Agent Skill
+# Installing the ArtCraft Agent Skills
 
-Instructions for AI coding agents and human users to install and verify the `filmcraft` Agent Skill.
+One repository, one skill per app (`skills/filmcraft`, `skills/effectcraft`).
+Skill managers discover skills at `<skills-dir>/<name>/SKILL.md`, so install
+by cloning this repo once and linking (or copying) each skill you want.
 
 ## 1. Prerequisites
 
-Ensure FilmCraft is installed:
-- **Windows**: `C:\Program Files\FilmCraft\filmcraft.exe` and `filmcraft-cli.exe`
-- **Linux**: `/usr/bin/filmcraft` and `filmcraft-cli`
-- **macOS**: `/Applications/FilmCraft.app` and `filmcraft-cli`
+The app you want to drive must be installed:
 
-Verify CLI access:
+| App | Windows | Linux |
+|---|---|---|
+| FilmCraft | `C:\Program Files\FilmCraft\filmcraft.exe` + `filmcraft-cli.exe` | `/usr/bin/filmcraft` + `filmcraft-cli` |
+| EffectCraft | `C:\Program Files\EffectCraft\effectcraft.exe` + `effectcraft-cli.exe` | `/usr/bin/effectcraft` + `effectcraft-cli` |
+
 ```sh
-filmcraft-cli --version
-# or on Windows:
-& "C:\Program Files\FilmCraft\filmcraft-cli.exe" --version
+filmcraft-cli --version          # or, on Windows:
+& "C:\Program Files\EffectCraft\effectcraft-cli.exe" --version
 ```
 
-## 2. Install the Skill
+## 2. Clone the repository once
 
-Clone or copy the `filmcraft` skill into your agent's skill directory:
+```sh
+git clone https://github.com/kjranyone/artcraft-agent-skills.git ~/artcraft-agent-skills
+cd ~/artcraft-agent-skills
+```
 
-### For Antigravity & Gemini CLI
+## 3. Link each skill into your agent's skills directory
+
+### Antigravity & Gemini CLI — `~/.agents/skills`
+
+```bash
+# macOS / Linux (symlink)
+ln -s ~/artcraft-agent-skills/skills/filmcraft ~/.agents/skills/filmcraft
+ln -s ~/artcraft-agent-skills/skills/effectcraft ~/.agents/skills/effectcraft
+```
+
+```powershell
+# Windows (junction — no admin rights needed)
+New-Item -ItemType Junction -Path "$env:USERPROFILE\.agents\skills\filmcraft" -Target "$env:USERPROFILE\artcraft-agent-skills\skills\filmcraft"
+New-Item -ItemType Junction -Path "$env:USERPROFILE\.agents\skills\effectcraft" -Target "$env:USERPROFILE\artcraft-agent-skills\skills\effectcraft"
+```
+
+### Claude Code — `~/.claude/skills`
+
+Same commands with `~/.claude/skills` (`$env:USERPROFILE\.claude\skills`)
+as the link path. Then optionally register the MCP server directly:
+
 ```powershell
 # Windows
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git "$env:USERPROFILE\.agents\skills\filmcraft"
-```
-```bash
-# macOS / Linux
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git ~/.agents/skills/filmcraft
+claude mcp add filmcraft  -- "C:\Program Files\FilmCraft\filmcraft-cli.exe" mcp
+claude mcp add effectcraft -- "C:\Program Files\EffectCraft\effectcraft-cli.exe" mcp
+# bridge to a running app instead of headless: append --bridge 50051
 ```
 
-### For Claude Code
+### OpenCode — `~/.config/opencode/skills`
+
 ```bash
-# macOS / Linux
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git ~/.claude/skills/filmcraft
+ln -s ~/artcraft-agent-skills/skills/filmcraft  ~/.config/opencode/skills/filmcraft
+ln -s ~/artcraft-agent-skills/skills/effectcraft ~/.config/opencode/skills/effectcraft
 ```
+
+### Copy instead of link (any agent)
+
 ```powershell
-# Windows
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git "$env:USERPROFILE\.claude\skills\filmcraft"
+Copy-Item -Recurse ~/artcraft-agent-skills/skills/effectcraft $env:USERPROFILE\.agents\skills\effectcraft
 ```
 
-### For OpenCode
-```bash
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git ~/.config/opencode/skills/filmcraft
+Copies don't track `git pull` updates — prefer links, or re-copy after
+updating.
+
+## 4. Verify
+
+```sh
+cd ~/artcraft-agent-skills/skills/filmcraft   && bash scripts/probe.sh   # 17 MCP tools
+cd ~/artcraft-agent-skills/skills/effectcraft && bash scripts/probe.sh   # 27 headless tools (36 bridged)
+# Windows: powershell -File scripts\probe.ps1
 ```
 
-## 3. Verify Installation
+End-to-end build → render → export check:
 
-Run the verification probe:
+```sh
+bash scripts/smoke-test.sh                    # or scripts\smoke-test.ps1
+```
+
+## 5. Going live (GUI bridge)
+
 ```powershell
-# Windows
-powershell -File .\scripts\probe.ps1
-```
-```bash
-# Linux / macOS
-./scripts/probe.sh
+# FilmCraft: token-managed launch on the visible desktop
+powershell -File skills\filmcraft\scripts\launch.ps1 -Port 50051
+# EffectCraft: no token needed
+powershell -File skills\effectcraft\scripts\launch.ps1 -Port 50052
 ```
 
-All 17 MCP tools should be discovered.
+Now the agent can read your open project, place clips/layers and render
+previews while you work. Details in each skill's SKILL.md.

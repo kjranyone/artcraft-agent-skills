@@ -28,7 +28,15 @@ JSONL
 echo "smoke: $("$CLI" --version) in $TMP"
 timeout 300 "$CLI" --compact --data-dir "$DATA" run - < "$TMP/script.jsonl" | tee "$TMP/run.jsonl"
 
-python3 - "$TMP" "$PROJ" "$OUT" "$PNG" <<'PY'
+PYBIN=""
+for cand in python3 python; do
+  # skip the Windows Store python3.exe stub: it exists but cannot run code
+  if command -v "$cand" >/dev/null 2>&1 && "$cand" -c "pass" >/dev/null 2>&1; then
+    PYBIN="$cand"; break
+  fi
+done
+[ -n "$PYBIN" ] || { echo "smoke: no usable python (python3/python)" >&2; exit 3; }
+"$PYBIN" - "$TMP" "$PROJ" "$OUT" "$PNG" <<'PY'
 import json, os, subprocess, sys
 tmp, proj, out, png = sys.argv[1:5]
 

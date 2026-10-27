@@ -10,7 +10,16 @@ mkdir -p "$OUT"
 "$CLI" --version > "$OUT/version.txt"
 "$CLI" commands --json > "$OUT/commands.json"
 
-python3 - "$OUT" <<'PY'
+PYBIN=""
+for cand in python3 python; do
+  # skip the Windows Store python3.exe stub: it exists but cannot run code
+  if command -v "$cand" >/dev/null 2>&1 && "$cand" -c "pass" >/dev/null 2>&1; then
+    PYBIN="$cand"; break
+  fi
+done
+[ -n "$PYBIN" ] || { echo "dump: no usable python (python3/python)" >&2; exit 3; }
+
+"$PYBIN" - "$OUT" <<'PY'
 import json, os, collections, sys
 out = sys.argv[1]
 cmds = json.load(open(os.path.join(out, "commands.json")))

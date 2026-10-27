@@ -1,118 +1,68 @@
-# FilmCraft Agent Skills
+# ArtCraft Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![FilmCraft](https://img.shields.io/badge/FilmCraft-0.10--0.13-purple)](https://github.com/storytold/filmcraft)
-[![Agent Skills](https://img.shields.io/badge/Agent_Skills-OpenCode%20%7C%20Claude%20%7C%20Antigravity-blue)](SKILL.md)
+[![EffectCraft](https://img.shields.io/badge/EffectCraft-0.17-teal)](https://getartcraft.com/apps/effectcraft)
+[![Agent Skills](https://img.shields.io/badge/Agent_Skills-Antigravity%20%7C%20Claude%20%7C%20OpenCode-blue)](INSTALL.md)
 
-Agent Skills for **[FilmCraft](https://github.com/storytold/filmcraft)** — the open-source, non-linear video editor written in pure Rust (Premiere Pro alternative).
+Agent Skills for the **[ArtCraft](https://getartcraft.com)** creative suite —
+native Rust creative tools that share one agent architecture: **every action
+is a command with an id**, driven by a CLI, an MCP server and a live GUI
+bridge.
 
-This skill equips AI coding agents (Antigravity, Gemini CLI, Claude Code, OpenCode, Cursor, Codex) to autonomously drive FilmCraft:
-- Assemble, cut, slip, and ripple-trim clips with tick-accurate precision
-- Apply video/audio effects, Lumetri colour grades, and transitions
-- Insert captions and graphics
-- Render frames and export H.264, ProRes, DNxHR, or interchange formats (FCPXML, EDL, OTIO)
-- Drive the live desktop GUI in real time via IPC bridge or run headlessly via `filmcraft-cli` and MCP
+| Skill | App | What the agent can do | Verified |
+|---|---|---|---|
+| [`skills/filmcraft`](skills/filmcraft/) | [FilmCraft](https://github.com/storytold/filmcraft) — NLE video editor (Premiere Pro-class) | assemble/cut/trim clips tick-accurately, effects & Lumetri grades, transitions, captions, graphics, export H.264/ProRes/DNxHR/FCPXML/EDL/OTIO, drive the live GUI | 0.10.0–0.13.0 (Windows, Linux) |
+| [`skills/effectcraft`](skills/effectcraft/) | [EffectCraft](https://getartcraft.com/apps/effectcraft) — motion graphics & VFX compositor (After Effects-class) | build comps/layers, keyframes & easing, 307 effects, masks, tracking, expressions, ExtendScript, templates, render MP4/ProRes/EXR/WebM, drive the live GUI | 0.17.0 (Windows) |
 
----
-
-## Quick Start & Installation
-
-### Option 1: Install for Antigravity & Gemini CLI
-
-Clone directly into your personal agent skills directory:
-
-```powershell
-# Windows
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git "$env:USERPROFILE\.agents\skills\filmcraft"
-```
-
-```bash
-# macOS / Linux
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git ~/.agents/skills/filmcraft
-```
-
-### Option 2: Install for Claude Code
-
-```bash
-# macOS / Linux
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git ~/.claude/skills/filmcraft
-```
-
-```powershell
-# Windows
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git "$env:USERPROFILE\.claude\skills\filmcraft"
-```
-
-Or register the built-in MCP server:
-
-```bash
-# Windows
-claude mcp add filmcraft -- "C:\Program Files\FilmCraft\filmcraft-cli.exe" mcp
-
-# Linux / macOS
-claude mcp add filmcraft -- filmcraft-cli mcp
-```
-
-### Option 3: OpenCode
-
-```bash
-git clone https://github.com/kjranyone/filmcraft-agent-skills.git ~/.config/opencode/skills/filmcraft
-```
+More apps in the series (PhotoCraft, VectorCraft, …) follow the same
+`<app>-cli` + `--control` bridge pattern; skills land here as they are
+verified against installed builds.
 
 ---
 
-## Two Connection Modes
+## Quick start
 
-| Mode | Command | Best For |
+1. Install the skills into your agent — see **[INSTALL.md](INSTALL.md)**
+   (Antigravity / Gemini CLI, Claude Code, OpenCode, and MCP-only setups).
+2. Headless sanity check (no GUI window):
+
+   ```sh
+   cd skills/effectcraft && bash scripts/probe.sh        # or skills/filmcraft
+   ```
+
+3. Ask your agent, e.g. *"EffectCraftを起動して"* (launches the GUI with a
+   control port), *"build a 5-second lower-third in EffectCraft and export
+   MP4"*, or *"cut this clip at 0:12 and cross-dissolve"* in FilmCraft.
+
+## Two connection modes (both apps)
+
+| Mode | Command | Best for |
 |---|---|---|
-| **Headless** | `filmcraft-cli mcp --demo` or `--project my.fcproj` | Batch rendering, headless pipelines, CLI automation |
-| **Live GUI Bridge** | `filmcraft --control 50051` + `filmcraft-cli --bridge 127.0.0.1:50051` | Real-time human-AI collaboration on the desktop GUI |
+| **Headless** | `<app>-cli mcp --demo` or `--project file` | batch builds, renders, exports, CI |
+| **Live GUI bridge** | `<app> --control 50051` + `<app>-cli mcp --bridge 50051` | real-time human-AI collaboration on the open project |
 
-### Enabling the Live GUI Bridge
+FilmCraft's bridge requires a 64-char `FILMCRAFT_CONTROL_TOKEN`;
+EffectCraft's bridge needs no token. Each skill documents its own tools,
+recipes, pitfalls and maintenance procedure.
 
-To allow AI agents to edit your open timeline in FilmCraft:
-
-1. Launch FilmCraft with `--control`:
-   ```powershell
-   & "C:\Program Files\FilmCraft\filmcraft.exe" --control 50051
-   ```
-2. Or set the persistent environment variable:
-   ```powershell
-   [Environment]::SetEnvironmentVariable('FILMCRAFT_CONTROL_PORT', '50051', 'User')
-   ```
-
-Now the AI agent can inspect your open timeline, import voiceovers (e.g. from `sttts-say`), place B-roll clips, and trigger previews while you work!
-
----
-
-## Directory Structure
+## Repository layout
 
 ```
 .
-├── SKILL.md                          # Main Agent Skill instruction definition
-├── README.md                         # Project overview and usage
-├── INSTALL.md                        # Step-by-step installation instructions
-├── LICENSE                           # MIT License
-├── references/                       # Domain knowledge and technical manuals
-│   ├── recipes.md                    # Verified step-by-step command recipes
-│   ├── commands.md                   # 701 commands catalogue grouped by namespace
-│   ├── cli.md                        # filmcraft-cli options and subcommands
-│   ├── mcp-and-control.md            # MCP tool specs and JSON-RPC schema
-│   ├── formats-and-roundtrip.md      # Codecs & NLE interchange compatibility
-│   ├── bugs-and-workarounds.md       # Known edge cases and fixes
-│   └── maintenance.md                # Verification and update guides
-├── scripts/                          # Verification and utility scripts
-│   ├── probe.ps1 / probe.sh          # MCP handshake and tool capability probe
-│   ├── dump-commands.ps1 / .sh       # Command catalogue generator
-│   └── smoke-test.ps1 / smoke-test.sh# Full end-to-end headless verification
+├── README.md / INSTALL.md / LICENSE
 └── skills/
-    └── filmcraft/                    # Nested copy for multi-skill managers
+    ├── filmcraft/              # FilmCraft agent skill
+    │   ├── SKILL.md            # entry point the agent reads
+    │   ├── references/         # recipes, command catalog, CLI/MCP docs, bugs
+    │   └── scripts/            # probe, launch, dump-commands, smoke-test
+    └── effectcraft/            # EffectCraft agent skill (same shape)
 ```
 
----
+## Credits & attribution
 
-## Credits & Attribution
-
-- Built for **[FilmCraft](https://github.com/storytold/filmcraft)** by the ArtCraft team.
-- Skill blueprint adapted from upstream issue proposal [#2831](https://github.com/storytold/filmcraft/issues/2831) and [AHL8192/opencode-craft-skills](https://github.com/AHL8192/opencode-craft-skills).
-- Maintained by [kjranyone](https://github.com/kjranyone).
+- Built for the **ArtCraft** apps by [kjranyone](https://github.com/kjranyone).
+- Skill blueprint adapted from upstream issue proposal
+  [storytold/filmcraft#2831](https://github.com/storytold/filmcraft/issues/2831)
+  and [AHL8192/opencode-craft-skills](https://github.com/AHL8192/opencode-craft-skills).
+- Community: <https://discord.gg/artcraft> · <https://getartcraft.com>
