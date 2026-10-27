@@ -15,6 +15,7 @@ message wins.
 | Phase | Output | Gate |
 |---|---|---|
 | P0 Brief | duration, audience, copy source (site text verbatim), asset inventory (name/resolution), sound plan | confirm with user |
+| P0.5 Philosophy | a named design philosophy (canvas-design method): an aesthetic movement in 4-6 paragraphs that defines form, space, color, scale and rhythm — written BEFORE any layout | present to user (may proceed unless objected) |
 | P1 Boards | **full-res 1920×1080 stills built in the production tool** (the approved layout must be the production layout), one message per board, contact sheet presented | **USER APPROVAL REQUIRED** |
 | P2 Animatic | per-board timing table (timecode × copy × motion intent) at least; low-res preview for tempo if possible | confirm tempo |
 | P3 Build | animation in EffectCraft/FilmCraft; effects per §Restraint | frames verified at every scene boundary |
@@ -25,6 +26,23 @@ message wins.
 A rejection after P3 that a P1 board would have caught is a **director
 failure**, not a "revision". Boards exist so that taste is checked before
 hours of render.
+
+## Lettering system (kills the "AI look")
+
+- **Fonts are chosen, not defaulted.** Latin display: **Big Shoulders Bold**
+  (condensed poster face), Latin micro-labels: **DM Mono** (slashed zero,
+  lab-report feel) — both bundled with the vendored canvas-design skill
+  (`skills/canvas-design/canvas-fonts/`, install per-user before use). JP:
+  Noto Sans JP (Bold for headlines with tracking −2…−4, Regular for subs).
+- **Never center everything.** Copy anchors to a margin (left x=170 @1080p),
+  photos take the opposing side, micro-labels pin top-left, one vertical
+  (縦書き) element per video on the right edge.
+- **Scale contrast inside a frame**: smallest and largest type in one
+  composition should differ ≥ 8× (22 px label vs 420 px background glyph).
+- **Outlined text as a texture tier**: stroke-only type (applyFill false,
+  stroke 1.5-2) for background glyphs, secondary lines and list numerals.
+- **Reveal letter-by-letter feel via wipes** (linear wipe per line), not
+  uniform layer fades.
 
 ## Design discipline (the professional minimum)
 
