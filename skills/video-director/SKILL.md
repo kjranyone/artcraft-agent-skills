@@ -93,6 +93,11 @@ in the first message, not at delivery.
 - Keep the boards project file: approved boards are the production layout,
   so the animation pass only adds keys to already-approved geometry.
 
+**Frame review runs against `references/aesthetic-canon.md`** — sourced
+rules from the Digital Agency of Japan (JP type tokens), Material Design 3
+(motion easing/duration tokens), Disney's twelve principles, and Rams' ten
+principles. Name the violated rule when a frame fails.
+
 See `references/production-playbook.md` for the full playbook and the GRAND2
 case study (v1 generic → v2 noise soup → v3 stock mush → v4 render-leak saga)
 with the concrete failure modes these rules exist to prevent.
