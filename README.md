@@ -12,6 +12,7 @@ bridge.
 
 | Skill | App | What the agent can do | Verified |
 |---|---|---|---|
+| [`skills/canvas-design`](skills/canvas-design/) | *vendored from [anthropics/skills](https://github.com/anthropics/skills) (Apache-2.0)* | design-philosophy-first visual craft for posters/boards, incl. a curated Latin font library (Big Shoulders, DM Mono, Bricolage Grotesque…) | upstream |
 | [`skills/video-director`](skills/video-director/) | *orchestration layer* (any app) | act as the professional director for promo/teaser work: production pipeline with a storyboard approval gate, design discipline (palette/typography/pacing), sound planning, editorial self-review — built on the GRAND2 teaser postmortem | process, 2026-10 |
 | [`skills/filmcraft`](skills/filmcraft/) | [FilmCraft](https://github.com/storytold/filmcraft) — NLE video editor (Premiere Pro-class) | assemble/cut/trim clips tick-accurately, effects & Lumetri grades, transitions, captions, graphics, export H.264/ProRes/DNxHR/FCPXML/EDL/OTIO, drive the live GUI | 0.10.0–0.13.0 (Windows, Linux) |
 | [`skills/effectcraft`](skills/effectcraft/) | [EffectCraft](https://getartcraft.com/apps/effectcraft) — motion graphics & VFX compositor (After Effects-class) | build comps/layers, keyframes & easing, 307 effects, masks, tracking, expressions, ExtendScript, templates, render MP4/ProRes/EXR/WebM, drive the live GUI | 0.17.0 (Windows) |
