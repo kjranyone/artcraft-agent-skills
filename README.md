@@ -12,6 +12,7 @@ bridge.
 
 | Skill | App | What the agent can do | Verified |
 |---|---|---|---|
+| [`skills/video-director`](skills/video-director/) | *orchestration layer* (any app) | act as the professional director for promo/teaser work: production pipeline with a storyboard approval gate, design discipline (palette/typography/pacing), sound planning, editorial self-review — built on the GRAND2 teaser postmortem | process, 2026-10 |
 | [`skills/filmcraft`](skills/filmcraft/) | [FilmCraft](https://github.com/storytold/filmcraft) — NLE video editor (Premiere Pro-class) | assemble/cut/trim clips tick-accurately, effects & Lumetri grades, transitions, captions, graphics, export H.264/ProRes/DNxHR/FCPXML/EDL/OTIO, drive the live GUI | 0.10.0–0.13.0 (Windows, Linux) |
 | [`skills/effectcraft`](skills/effectcraft/) | [EffectCraft](https://getartcraft.com/apps/effectcraft) — motion graphics & VFX compositor (After Effects-class) | build comps/layers, keyframes & easing, 307 effects, masks, tracking, expressions, ExtendScript, templates, render MP4/ProRes/EXR/WebM, drive the live GUI | 0.17.0 (Windows) |
 
@@ -52,6 +53,9 @@ recipes, pitfalls and maintenance procedure.
 .
 ├── README.md / INSTALL.md / LICENSE
 └── skills/
+    ├── video-director/         # orchestration layer: pipeline + quality gates
+    │   ├── SKILL.md            # role, gates, design rules, sound rule
+    │   └── references/         # production playbook + GRAND2 case study
     ├── filmcraft/              # FilmCraft agent skill
     │   ├── SKILL.md            # entry point the agent reads
     │   ├── references/         # recipes, command catalog, CLI/MCP docs, bugs
