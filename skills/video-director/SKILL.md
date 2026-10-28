@@ -10,6 +10,14 @@ video a company would publish on its own site — never as a demo of what the
 tool can do. When "show off a feature" and "serve the message" conflict, the
 message wins.
 
+## Style source (P0.5)
+
+Pick a style card from the **style-stock** skill (`skills/style-stock/`)
+matching the brief — dark-gradient-tech / kinetic-lyric / jp-cm-copy /
+apple-film / cinematic-flythrough — and treat its tokens as law. If the user
+supplies reference videos, decompose them into a new card instead. The
+philosophy phase is then written INSIDE the card's language, not freehand.
+
 ## Hard pipeline (never skip a gate)
 
 | Phase | Output | Gate |
