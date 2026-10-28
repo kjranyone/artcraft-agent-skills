@@ -51,6 +51,17 @@ what instantly breaks the style
 
 ## Card index
 
+### Real stock (specific works, decomposed)
+
+| Card | Work | Teaches |
+|---|---|---|
+| `styles/real/linear-releases.md` | Linear release films (2022-24) | dark panels, aurora, calm product beats |
+| `styles/real/spotify-wrapped.md` | Spotify Wrapped (2016-24) | color blocks, giant numerals, hard cuts on beat |
+| `styles/real/zkai-copy-cm.md` | Z会「わたしたちをこえてゆけ」(2009) | copy-as-only-visual, restraint, JP CM grammar |
+| `styles/real/dylan-cue-cards.md` | Bob Dylan "Subterranean Homesick Blues" (1965) | the original lyric video: cards drop ON the word |
+
+### Genre distillations (fallback when no specific work fits)
+
 | Card | Look | Communicates |
 |---|---|---|
 | `styles/dark-gradient-tech.md` | dark mode, mesh gradients, mono labels | modern SaaS / precision tech |
@@ -58,6 +69,9 @@ what instantly breaks the style
 | `styles/jp-cm-copy.md` | Japanese CM copy grammar, calm beauty shots | trust, craftsmanship |
 | `styles/apple-film.md` | black stage, centered hero, light sweeps | premium, confidence |
 | `styles/cinematic-flythrough.md` | dark 3D space, fog, depth, camera travel | scale, future |
+
+Prefer **real stock** when a card matches the brief. Genre cards are
+fallbacks — they describe families, not masterpieces.
 
 Use with: **video-director** (pipeline), **effectcraft** (execution),
 **sttts-say** (narration).
