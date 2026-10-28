@@ -70,6 +70,9 @@ hours of render.
   card (≥ 2.5 s, logo complete and centered, URL, no competing elements).
   Copy comes from the client's own text, refined — never invented marketing
   claims.
+- **Dynamics mandate**: in motion sections, every element travels in,
+  drifts during hold, and travels out. Two frames 0.25 s apart inside a
+  hold must differ. Static pops + fades = slideshow defect.
 - **Endings**: last 1 s may carry a single glitch-out; the frame before black
   must still be readable.
 

@@ -55,6 +55,23 @@ proportional retime before render.
 - Flash: white solid, opacity keys 0→amp→0 over 0.13 s at beat −1 frame.
 - Orb pulse: scale 100→118→100 on the drop.
 
+## Dynamics mandate (the difference between template and craft)
+
+**Every element moves in EVERY frame.** A lyric clip where elements only pop
+in and freeze is a slideshow. Each element needs all three phases:
+
+1. **Travel-in** (0.2-0.3 s): fly from off-screen or scale from 130% with
+   decelerate; never a bare opacity pop alone.
+2. **Hold drift** (whole hold): position drifts 10-40 px in the travel
+   direction, or scale creeps 100→102; giant numerals rotate ±3° over their
+   window; background gradient/orbs pulse on the beat.
+3. **Travel-out** (0.2-0.3 s): accelerate out in the SAME direction (passing
+   through), or scale through past camera (100→150 + fade).
+
+Direction alternates per card (left-in/right-out, then right-in/left-out) —
+the frame is never at rest. Verify: any two frames 0.25 s apart inside a
+hold must differ (RMSE > 0).
+
 ## Anti-patterns
 
 - Whole-line fades (kills the beat relationship).
