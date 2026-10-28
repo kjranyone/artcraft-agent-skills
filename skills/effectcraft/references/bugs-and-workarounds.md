@@ -4,6 +4,52 @@ No hanging or corrupting defect reproduced so far. These are the behaviors
 that *look* like bugs, bite agents, and have verified workarounds — keep the
 reproductions, they double as regression tests.
 
+## 0. Long advanced3D renders leak memory — segment them (verified)
+
+A 30 s / 900-frame render with `renderer: "advanced3D"` (3D layers, CC
+Particle World, many Glows) dies with `memory allocation of ~1–2.3 GB failed`
+after ~4–6 s of timeline, even with 30 GB free (allocation grows per frame;
+`--gpu` does not help; PNG-sequence output does not help). Single
+`render-frame` calls always succeed.
+
+**Workaround:** render in ~1 s segments (each a fresh process — memory
+resets) into PNG sequences, then unify numbering and encode with ffmpeg:
+
+```sh
+effectcraft-cli --project p.ecproj render --out "segNN/f_%04d.png" --format png --start 0 --end 1
+# …per segment, then:
+ffmpeg -framerate 30 -i all/FR_%06d.png -c:v libx264 -b:v 15M -pix_fmt yuv420p out.mp4
+```
+
+Segment PNGs embed the `--out` pattern literal in the filename. 2D-only
+comps of the same length render fine in one go.
+
+## 0b. `layer.timing` does not gate layers headless (verified)
+
+`layer.timing {layers, in, out}` windows were silently ignored on image
+layers (the layer kept rendering outside the window). **Workaround:** gate
+with hard `transform.opacity` keys (`t_in-1frame: 0 → t_in: 100 →
+t_out-1frame: 100 → t_out: 0`) — frame-accurate and reliable.
+
+## 0c. CC Particle World uses native AE paths, not registry names (verified)
+
+`list_effects` flattens names ("Velocity", "Birth Size"), but `prop.set`
+needs the real tree: `physics/velocity`, `physics/gravity`,
+`particle/birthSize`, `particle/birthColor`, `producer/radiusX`, `birthRate`,
+`longevity`. Get truth with `props - <layer> --flat`.
+
+## 0d. 3D primitives take no effects (verified)
+
+`effect.apply` on a `layer.new3dPrimitive` layer errors with "this layer type
+has no effects". Fake glow with a blurred 2D solid.
+
+## 0e. Before the first keyframe, layers show their STATIC value (verified)
+
+A layer whose first `transform.opacity` key sits at t=19.6 (value 100) renders
+at opacity 100 for 0–19.6 s. Gate every appearing layer with a `t=0: 0` key
+**and** add a plateau key just before its entrance (`t_in-1frame: 0`), else
+opacity ramps linearly from the gate key (ghosting through every scene).
+
 ## 1. Write/read time bases are asymmetric (verified)
 
 **Repro**
@@ -96,6 +142,22 @@ agent's cwd is often not where the user expects media.
 
 **Workaround:** always pass absolute paths for `--out`, `--save-as`,
 `--project`, and `file.import`'s `paths`.
+
+## 9. `layer.moveEarlier/moveLater` move TIME, not stacking order (verified)
+
+Calling them on a footage layer changed nothing visually — they shift the
+layer's timeline position, not the stacking index. **There is no stacking
+reorder command.** The stacking order = creation order. Design the build
+script's creation sequence (background solids first, photos, texts on top),
+or delete and re-add the layer at the right time.
+
+## 10. `--save` flag can abort a `--empty` session (verified)
+
+`effectcraft-cli --empty --save-as F run <cmds> --save` errors with
+`file.save: no path` (--empty has no in-place path) and the run's changes
+are lost. `--save-as` alone persists correctly. For sessions opened with
+`--project F`, prefer an explicit trailing engine command
+`file.saveAs {"path": F}` in the args file over the `--save` flag.
 
 ## Doc-vs-binary deltas (keep honest)
 
