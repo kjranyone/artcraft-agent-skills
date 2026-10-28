@@ -45,6 +45,13 @@ hours of render.
 - **Never center everything.** Copy anchors to a margin (left x=170 @1080p),
   photos take the opposing side, micro-labels pin top-left, one vertical
   (縦書き) element per video on the right edge.
+- **Consistent anchor grid across cards** (視線誘導): label top-left → copy
+  left column → display element right — the SAME triangle on every card, so
+  the eye learns where to look. Position changes per card = eye-flow chaos.
+- **Auto-fit (幅の自動縮小)**: measure every text's width with font-specific
+  factors (Big Shoulders Bold 0.46/char, DM Mono 0.60, Noto Sans JP Bold
+  1.0 JP / 0.52 Latin) and scale down until it fits the column. Cut-offs
+  are always defects — "just fits" beats "slightly cropped".
 - **Scale contrast inside a frame**: smallest and largest type in one
   composition should differ ≥ 8× (22 px label vs 420 px background glyph).
 - **Outlined text as a texture tier**: stroke-only type (applyFill false,
