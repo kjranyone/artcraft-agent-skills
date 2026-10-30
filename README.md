@@ -10,43 +10,79 @@ native Rust creative tools that share one agent architecture: **every action
 is a command with an id**, driven by a CLI, an MCP server and a live GUI
 bridge.
 
-| Skill | App | What the agent can do | Verified |
-|---|---|---|---|
-| [`skills/canvas-design`](skills/canvas-design/) | *vendored from [anthropics/skills](https://github.com/anthropics/skills) (Apache-2.0)* | design-philosophy-first visual craft for posters/boards, incl. a curated Latin font library (Big Shoulders, DM Mono, Bricolage Grotesque…) | upstream |
-| [`skills/video-director`](skills/video-director/) | *orchestration layer* (any app) | act as the professional director for promo/teaser work: production pipeline with a storyboard approval gate, design discipline (palette/typography/pacing), sound planning, editorial self-review — built on the GRAND2 teaser postmortem | process, 2026-10 |
-| [`skills/filmcraft`](skills/filmcraft/) | [FilmCraft](https://github.com/storytold/filmcraft) — NLE video editor (Premiere Pro-class) | assemble/cut/trim clips tick-accurately, effects & Lumetri grades, transitions, captions, graphics, export H.264/ProRes/DNxHR/FCPXML/EDL/OTIO, drive the live GUI | 0.10.0–0.13.0 (Windows, Linux) |
-| [`skills/effectcraft`](skills/effectcraft/) | [EffectCraft](https://getartcraft.com/apps/effectcraft) — motion graphics & VFX compositor (After Effects-class) | build comps/layers, keyframes & easing, 307 effects, masks, tracking, expressions, ExtendScript, templates, render MP4/ProRes/EXR/WebM, drive the live GUI | 0.17.0 (Windows) |
+## Install
 
-More apps in the series (PhotoCraft, VectorCraft, …) follow the same
-`<app>-cli` + `--control` bridge pattern; skills land here as they are
-verified against installed builds.
+One `git clone` + symlink each skill you want. Pick your agent:
 
----
+### Claude Code / Codex CLI
 
-## Quick start
+```bash
+git clone https://github.com/kjranyone/artcraft-agent-skills.git
+cd artcraft-agent-skills
 
-1. Install the skills into your agent — see **[INSTALL.md](INSTALL.md)**
-   (Antigravity / Gemini CLI, Claude Code, OpenCode, and MCP-only setups).
-2. Headless sanity check (no GUI window):
+# Windows (PowerShell, admin not required — Junction)
+$skills = "$env:USERPROFILE\.claude\skills"
+foreach ($s in Get-ChildItem skills -Directory) {
+  New-Item -ItemType Junction -Path "$skills\$($s.Name)" -Target $s.FullName -Force
+}
 
-   ```sh
-   cd skills/effectcraft && bash scripts/probe.sh        # or skills/filmcraft
-   ```
+# macOS / Linux (symlink)
+for s in skills/*/; do
+  ln -sfn "$(pwd)/$s" "$HOME/.claude/skills/$(basename $s)"
+done
+```
 
-3. Ask your agent, e.g. *"EffectCraftを起動して"* (launches the GUI with a
-   control port), *"build a 5-second lower-third in EffectCraft and export
-   MP4"*, or *"cut this clip at 0:12 and cross-dissolve"* in FilmCraft.
+### Antigravity / Gemini CLI
 
-## Two connection modes (both apps)
+```bash
+# Windows (PowerShell)
+$skills = "$env:USERPROFILE\.agents\skills"
+foreach ($s in Get-ChildItem skills -Directory) {
+  New-Item -ItemType Junction -Path "$skills\$($s.Name)" -Target $s.FullName -Force
+}
+
+# macOS / Linux
+for s in skills/*/; do
+  ln -sfn "$(pwd)/$s" "$HOME/.agents/skills/$(basename $s)"
+done
+```
+
+### OpenCode
+
+```bash
+for s in skills/*/; do
+  ln -sfn "$(pwd)/$s" "$HOME/.config/opencode/skills/$(basename $s)"
+done
+```
+
+> Detailed instructions (copy-instead-of-symlink, per-skill install, MCP registration): **[INSTALL.md](INSTALL.md)**
+
+## Skills
+
+| Skill | Type | What it does |
+|---|---|---|
+| [`video-director`](skills/video-director/) | orchestration | director role: pipeline (brief→boards→animatic→build→sound→QC), design discipline, aesthetic canon, frame review rubric |
+| [`style-stock`](skills/style-stock/) | reference library | decomposed style cards from real masterpieces (Linear, Spotify Wrapped, Z会, Dylan) + 5 genre fallbacks |
+| [`filmcraft`](skills/filmcraft/) | FilmCraft skill | NLE video editor (Premiere Pro-class): cut, grade, export |
+| [`effectcraft`](skills/effectcraft/) | EffectCraft skill | motion graphics & VFX (After Effects-class): comps, keyframes, effects, render |
+| [`canvas-design`](skills/canvas-design/) | design (vendored) | design-philosophy-first visual craft + Latin font library (from [anthropics/skills](https://github.com/anthropics/skills), Apache-2.0) |
+
+**Companion skill:** [sttts-say](https://github.com/kjranyone/sttts-gui) —
+Irodori-TTS for Japanese narration. Recommended for all video projects
+(8 bundled voices, local GPU, already installed on dev machines).
+
+## Sanity check
+
+```bash
+cd skills/effectcraft && bash scripts/probe.sh    # or skills/filmcraft
+```
+
+## Two connection modes
 
 | Mode | Command | Best for |
 |---|---|---|
 | **Headless** | `<app>-cli mcp --demo` or `--project file` | batch builds, renders, exports, CI |
-| **Live GUI bridge** | `<app> --control 50051` + `<app>-cli mcp --bridge 50051` | real-time human-AI collaboration on the open project |
-
-FilmCraft's bridge requires a 64-char `FILMCRAFT_CONTROL_TOKEN`;
-EffectCraft's bridge needs no token. Each skill documents its own tools,
-recipes, pitfalls and maintenance procedure.
+| **Live GUI bridge** | `<app> --control 50051` + `<app>-cli mcp --bridge 50051` | real-time human-AI collaboration |
 
 ## Repository layout
 
@@ -54,14 +90,24 @@ recipes, pitfalls and maintenance procedure.
 .
 ├── README.md / INSTALL.md / LICENSE
 └── skills/
-    ├── video-director/         # orchestration layer: pipeline + quality gates
+    ├── video-director/         # orchestration: pipeline + quality gates
     │   ├── SKILL.md            # role, gates, design rules, sound rule
-    │   └── references/         # production playbook + GRAND2 case study
+    │   ├── references/         # canon, playbook, rubric, case study
+    │   └── scripts/            # frame_audit.py (executable rubric)
+    ├── style-stock/            # reference style library
+    │   ├── SKILL.md            # selection workflow + card template
+    │   └── styles/             # real stock (4) + genre cards (5)
+    ├── canvas-design/          # Anthropic design skill (vendored)
+    │   ├── SKILL.md            # design philosophy → canvas
+    │   └── canvas-fonts/       # Big Shoulders, DM Mono, Bricolage…
     ├── filmcraft/              # FilmCraft agent skill
-    │   ├── SKILL.md            # entry point the agent reads
-    │   ├── references/         # recipes, command catalog, CLI/MCP docs, bugs
-    │   └── scripts/            # probe, launch, dump-commands, smoke-test
-    └── effectcraft/            # EffectCraft agent skill (same shape)
+    │   ├── SKILL.md
+    │   ├── references/         # recipes, catalog, CLI/MCP docs, bugs
+    │   └── scripts/
+    └── effectcraft/            # EffectCraft agent skill
+        ├── SKILL.md
+        ├── references/         # recipes, catalog, CLI/MCP docs, bugs ×10
+        └── scripts/
 ```
 
 ## Credits & attribution
