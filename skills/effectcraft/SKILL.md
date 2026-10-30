@@ -10,6 +10,18 @@ Effects-class) whose agent interface is built in: **every action is a command
 with an id**. The GUI, menus, the CLI, the control channel and the MCP server
 all drive one engine. Verified against **0.17.0** on Windows.
 
+## Setup (agent: run before first use)
+
+Check that EffectCraft CLI is installed and compatible:
+
+```bash
+effectcraft-cli --version   # expect 0.17.x
+```
+
+- If command not found: tell the user "EffectCraft is not installed. Download from https://getartcraft.com/apps/effectcraft"
+- If version < 0.17: warn about API differences (see bugs-and-workarounds.md)
+- If version ≥ 0.18: check bugs-and-workarounds.md for breaking changes
+
 ## Machine & environment paths
 
 | Platform | Binary | CLI | Default Data Dir |

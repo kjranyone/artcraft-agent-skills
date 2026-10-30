@@ -10,6 +10,10 @@ card from `styles/`, apply its tokens literally, and only deviate where the
 card says deviation is allowed. If the user provides reference videos/links,
 decompose them into a NEW card using the card template below, then follow it.
 
+## Dependencies
+
+No external dependencies. Style cards are self-contained markdown files.
+
 ## Workflow
 
 1. **Pick** — match the brief to a card (`styles/*.md`). Present the user

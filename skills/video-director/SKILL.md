@@ -83,6 +83,16 @@ hours of render.
 - **Endings**: last 1 s may carry a single glitch-out; the frame before black
   must still be readable.
 
+## Dependencies (agent: verify before P4 Sound)
+
+1. EffectCraft CLI: `effectcraft-cli --version` (≥ 0.17 required)
+2. Narration TTS: `sttts-say voice list` (already installed on dev machines;
+   if missing, install from https://github.com/kjranyone/sttts-gui)
+3. ImageMagick: `magick --version` (for frame_audit.py)
+4. ffmpeg: `ffmpeg -version` (for BGM mux)
+
+If any are missing, inform the user before starting production.
+
 ## Sound rule
 
 A 30 s teaser with no audio track is **not deliverable as "final"**. At P0

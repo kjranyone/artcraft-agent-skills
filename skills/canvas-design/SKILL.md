@@ -86,6 +86,20 @@ Visual expression: Grid-based precision, bold photography or stark graphics, dra
 
 ---
 
+## Dependencies
+
+Canvas fonts are bundled in `canvas-fonts/`. Install per-user before use:
+
+```powershell
+$dst = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
+Copy-Item canvas-fonts\*.ttf $dst -Force
+Get-ChildItem canvas-fonts\*.ttf | ForEach-Object {
+  New-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts' `
+    -Name ([IO.Path]::GetFileNameWithoutExtension($_.Name) + ' (TrueType)') `
+    -Value (Join-Path $dst $_.Name) -Force
+}
+```
+
 ## DEDUCING THE SUBTLE REFERENCE
 
 **CRITICAL STEP**: Before creating the canvas, identify the subtle conceptual thread from the original request.

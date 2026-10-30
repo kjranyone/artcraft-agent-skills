@@ -10,6 +10,17 @@ is built in: **every action is a command with an id**. Menus, shortcuts, panels,
 timeline gestures, the CLI, the control channel, the MCP server and the GUI all
 drive one engine. Verified against **0.10.0–0.13.0** on Windows and Linux.
 
+## Setup (agent: run before first use)
+
+Check that FilmCraft CLI is installed and compatible:
+
+```bash
+filmcraft-cli --version   # expect 0.10.x - 0.13.x
+```
+
+- If command not found: tell the user "FilmCraft is not installed. Download from https://getartcraft.com/apps/filmcraft"
+- Check FILMCRAFT_CONTROL_TOKEN is set for live GUI bridge mode
+
 ## Machine & environment paths
 
 | Platform | Binary | CLI | Default Data Dir |

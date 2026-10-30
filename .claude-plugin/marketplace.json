@@ -1,0 +1,34 @@
+{
+  "name": "artcraft-agent-skills",
+  "owner": {
+    "name": "kjranyone",
+    "email": "kjranyone@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Agent Skills for the ArtCraft creative suite — video production, motion graphics, design",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "video-production",
+      "description": "Full video production pipeline: direction, style library, NLE editing, motion graphics, narration",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/video-director",
+        "./skills/style-stock",
+        "./skills/filmcraft",
+        "./skills/effectcraft"
+      ]
+    },
+    {
+      "name": "design",
+      "description": "Design philosophy and visual craft (vendored from anthropics/skills)",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/canvas-design"
+      ]
+    }
+  ]
+}
