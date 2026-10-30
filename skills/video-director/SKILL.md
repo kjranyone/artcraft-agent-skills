@@ -87,8 +87,16 @@ hours of render.
 
 A 30 s teaser with no audio track is **not deliverable as "final"**. At P0
 choose: user-provided BGM (then beat-sync every cut), narration via the
-sttts-say skill, or get explicit written acceptance of a silent cut. Say this
+**sttts-say** skill (Irodori-TTS, local GPU — the recommended TTS for all
+video projects), or get explicit written acceptance of a silent cut. Say this
 in the first message, not at delivery.
+
+**sttts-say installation** (if not already installed):
+1. `git clone https://github.com/kjranyone/sttts-gui.git` → copy `skills/sttts-say/` to your agent's skills directory
+2. Or: `git clone https://github.com/kjranyone/sttts-gui.git "$env:USERPROFILE\.claude\skills\sttts-say"`
+3. Verify: `sttts-say voice list` (8 bundled voices: genki, kuudere, narrator, ojisan, oneesan, seinen, shounen, tsundere)
+4. Recommended voice for corporate video: `narrator`
+5. First synthesis downloads the model (~3.5 GB, one time only); subsequent calls ~1 s
 
 ## Self-review before delivery (be the client)
 
