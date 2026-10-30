@@ -12,50 +12,31 @@ bridge.
 
 ## Install
 
-One `git clone` + symlink each skill you want. Pick your agent:
+### Claude Code (plugin marketplace — 1 command)
 
-### Claude Code / Codex CLI
+```
+/plugin marketplace add kjranyone/artcraft-agent-skills
+/plugin install video-production@artcraft-agent-skills
+```
+
+### Other agents (git clone + symlink)
 
 ```bash
 git clone https://github.com/kjranyone/artcraft-agent-skills.git
 cd artcraft-agent-skills
 
-# Windows (PowerShell, admin not required — Junction)
-$skills = "$env:USERPROFILE\.claude\skills"
-foreach ($s in Get-ChildItem skills -Directory) {
-  New-Item -ItemType Junction -Path "$skills\$($s.Name)" -Target $s.FullName -Force
-}
-
-# macOS / Linux (symlink)
-for s in skills/*/; do
-  ln -sfn "$(pwd)/$s" "$HOME/.claude/skills/$(basename $s)"
-done
-```
-
-### Antigravity / Gemini CLI
-
-```bash
-# Windows (PowerShell)
-$skills = "$env:USERPROFILE\.agents\skills"
-foreach ($s in Get-ChildItem skills -Directory) {
-  New-Item -ItemType Junction -Path "$skills\$($s.Name)" -Target $s.FullName -Force
-}
+# Windows (PowerShell) — run install.ps1
+.\install.ps1 claude     # or: antigravity / opencode
 
 # macOS / Linux
-for s in skills/*/; do
-  ln -sfn "$(pwd)/$s" "$HOME/.agents/skills/$(basename $s)"
-done
+chmod +x install.sh && ./install.sh claude
 ```
 
-### OpenCode
+> `install.sh` / `install.ps1` create junctions/symlinks from this repo's
+> `skills/` folders into your agent's skills directory. Re-run after
+> `git pull` to pick up updates.
 
-```bash
-for s in skills/*/; do
-  ln -sfn "$(pwd)/$s" "$HOME/.config/opencode/skills/$(basename $s)"
-done
-```
-
-> Detailed instructions (copy-instead-of-symlink, per-skill install, MCP registration): **[INSTALL.md](INSTALL.md)**
+> Detailed instructions (per-skill install, MCP registration): **[INSTALL.md](INSTALL.md)**
 
 ## Skills
 
